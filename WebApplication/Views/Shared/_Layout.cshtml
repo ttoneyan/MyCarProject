@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - MyCar</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@100..900&display=swap" rel="stylesheet">
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <a asp-controller="Auth" asp-action="Login" class="login-link">
+                <img src="https://mycar2026.blob.core.windows.net/container-videosimages/svg.svg" class="user-icon" />
+                Մուտք
+            </a>
+        </div>
+        <nav class="navbar">
+            <a asp-controller="Home" asp-action="Index" class="logo"></a>
+            <ul class="nav-links">
+                <li>
+                    <a asp-controller="Dealers" asp-action="Index">Դիլերներ</a>
+                </li>
+                <li>
+                    <a asp-controller="Cars" asp-action="Index">Մեքենաներ</a>
+                </li>
+                <li>
+                    <a asp-controller="Terms" asp-action="Terms">Պայմաններ</a>
+                </li>
+                <li>
+                    <a asp-controller="LoanApplications" asp-action="Index">
+                        Հայտեր
+                    </a>
+                </li>
+            </ul>
+
+            <div class="auth-buttons">
+                <a href="#" class="salecar-btn">Վաճառիր մեքենադ</a>
+                <a href="#" class="checkcredit-btn">Ստուգիր Վարկունակությունդ</a>
+            </div>
+        </nav>
+    </header>
+<div class="container-fluid p-0">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+<footer>
+    <div class="footer-content">
+
+        <div class="footer-left">
+            <p>MyCar հարթակը վերահսկվում է ՀՀ ԿԲ կողմից:</p>
+            <p>Ամերիաբանկ ՓԲԸ-ն պատասխանատվություն չի կրում այլ անձանց <br> ինտերնետային կայքերի բովանդակության ստույգության և արժանահավատության համար:</p>
+        </div>
+
+        <div class="footer-right">
+            <p class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span>Email: info@mycar.am</span>
+            </p>
+
+            <p class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <span>Tel: +374 00 00 00</span>
+            </p>
+
+            <p>&copy; @DateTime.Now.Year MyCar. All Rights Reserved.</p>
+        </div>
+
+    </div>
+</footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
