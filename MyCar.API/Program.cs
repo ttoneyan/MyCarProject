@@ -5,8 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using MyCar.API.Data;
 using MyCar.API.Models;
 using MyCar.API.Services.Implementations;
-using System.Text;
 using MyCar.API.Services.Interfaces;
+using System.Security.Claims;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IPasswordHasher<Dealers>, PasswordHasher<Dealers>>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -46,12 +49,34 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        RoleClaimType = ClaimTypes.Role
+    };
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            Console.WriteLine("TOKEN RECEIVED:");
+            Console.WriteLine(context.Token);
+
+            return Task.CompletedTask;
+        },
+
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine("JWT ERROR:");
+            Console.WriteLine(context.Exception.Message);
+
+            return Task.CompletedTask;
+        }
     };
 });
+builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IDealerService, DealerService>();
+builder.Services.AddScoped<ILoanService, LoanService>();
 
 var app = builder.Build();
 

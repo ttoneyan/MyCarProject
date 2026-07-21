@@ -20,6 +20,10 @@ public static class Seed
         {
             await roleManager.CreateAsync(new ApplicationRole { Name = "User" });
         }
+        if (!await roleManager.RoleExistsAsync("Dealer"))
+        {
+            await roleManager.CreateAsync(new ApplicationRole { Name = "Dealer" });
+        }
 
         var admin = await userManager.FindByEmailAsync("admin@test.com");
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using MyCar.API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -8,18 +9,31 @@ namespace MyCar.API.Services.Implementations;
 public class TokenService
 {
     private readonly IConfiguration _config;
-    public TokenService(IConfiguration config)
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public TokenService(
+        IConfiguration config,
+        UserManager<ApplicationUser> userManager)
     {
         _config = config;
+        _userManager = userManager;
     }
-    public string CreateToken(ApplicationUser user)
+
+    public async Task<string> CreateToken(ApplicationUser user)
     {
-        var claims = new[]
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var claims = new List<Claim>
         {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email ?? ""),
-                new Claim(ClaimTypes.Name, user.UserName ?? "")
-            };
+          new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+          new Claim(ClaimTypes.Email, user.Email ?? ""),
+          new Claim(ClaimTypes.Name, user.UserName ?? "")
+        };
+
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
 
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(_config["Jwt:Key"])

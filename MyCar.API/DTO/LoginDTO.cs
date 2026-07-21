@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿    using System.ComponentModel.DataAnnotations;
 
-namespace MyCar.API.DTO;
+    namespace MyCar.API.DTO;
 
-public class LoginDTO
-{
-    [Required]
-    [EmailAddress]
-    public string Email { get; set; }
+    public class LoginDTO
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
-    [Required]
-    public string Password { get; set; }
-}
+        [Required]
+        public string Password { get; set; }
+    }

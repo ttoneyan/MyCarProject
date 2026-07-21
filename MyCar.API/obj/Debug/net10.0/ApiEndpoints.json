@@ -30,5 +30,37 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyCar.API.Controllers.DealersController",
+    "Method": "CreateDealer",
+    "RelativePath": "api/Dealers/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MyCar.API.DTO.CreateDealerDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MyCar.API.Controllers.LoanController",
+    "Method": "CheckLoan",
+    "RelativePath": "api/Loan/check",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "MyCar.API.DTO.CreateLoanApplicationDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

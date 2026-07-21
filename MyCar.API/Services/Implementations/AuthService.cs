@@ -95,13 +95,14 @@ public class AuthService: IAuthService
             };
         }
 
-        var token = _tokenService.CreateToken(user);
+        var token = await _tokenService.CreateToken(user);
 
         return new AuthResponse
         {
             Success = true,
             Message = "Login successful.",
-            Token = token
+            Token = token,
+            Username = $"{user.FirstName} {user.LastName}"
         };
 
     }
